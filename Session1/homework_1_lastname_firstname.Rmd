@@ -3,11 +3,37 @@ title: "COMPSCIX 415.2 Homework 1"
 author: "ben kimel green"
 date: "1/29/2019"
 #output: pdf_document
----
 
+---
+```{r load_packages, warning=FALSE, message=FALSE}
+```
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
 library(mdsr)
 library(tidyverse)
+
 2+2
+
+data("WorldCities")
+
+
 ```
+World cities
+---
+There are 10 variables in the World Cities dataset. Among them one can find city name,country and population, Geographic variables and other important variables such as code, and date (estimated data collection date)
+```{r}
+glimpse(WorldCities)
+WorldCities <- head(WorldCities, 200) 
+```
+```{r}
+country_col <- WorldCities$country
+unique(country_col)
+```
+QUESTION 2: There is a column called region in the data set. Can you extract this and show
+only the unique values? 
+```{r}
+region_col <- WorldCities$region
+unique(region_col)
+```
+
