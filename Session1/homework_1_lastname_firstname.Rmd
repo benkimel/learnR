@@ -57,7 +57,7 @@ QUESTION 4: Make one more histogram of the population and add a new x-label, a n
 WorldCities %>% ggplot(aes(x = population)) +
 geom_histogram() +
 xlab('Population of the city!') +
-ylab('Headcount') +
+ylab('Number of Cities') +
 ggtitle('Best Histogram') +
 theme_bw()
 ```
