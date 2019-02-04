@@ -12,11 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(mdsr)
 library(tidyverse)
-
-2+2
-
 data("WorldCities")
-
 
 ```
 World cities
@@ -37,3 +33,31 @@ region_col <- WorldCities$region
 unique(region_col)
 ```
 
+```{r}
+#same with function or verb
+country_col <- select(WorldCities, country)
+#same with a pipe
+country_col <- WorldCities %>% select(country)
+#chainig pipes
+WorldCities %>% select(region) %>% head(5)
+```
+QUESTION 3: Can you extract and show the unique entries from the country column in
+WorldCities using one line of code and two %>% operators? 
+```{r}
+WorldCities%>%select(country)%>%unique()
+```
+Visualisation
+```{r}
+WorldCities %>% ggplot(aes(x = population)) +
+geom_histogram() +
+xlab('City Population')
+```
+QUESTION 4: Make one more histogram of the population and add a new x-label, a new ylabel, a new title (use ggtitle('my title')), and change the theme of the plot using theme_bw().
+```{r}
+WorldCities %>% ggplot(aes(x = population)) +
+geom_histogram() +
+xlab('Population of the city!') +
+ylab('Headcount') +
+ggtitle('Best Histogram') +
+theme_bw()
+```
