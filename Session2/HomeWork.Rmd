@@ -43,8 +43,69 @@ ggplot(data = mpg)+geom_point(mapping = aes(x = hwy,y=cyl))
 ```
 5<br />
 Q: What happens if you make a scatterplot of class vs drv? Why is the plot not useful?<br />
-A:The plot is not very useful since both varaiables are qualtative and it maybe better to have the results in a table or some other visualisation method
+A:The plot is not very useful since both varaiables are categorical and it maybe better to have the results in a table or some other visualisation method
 ```{r}
 ggplot(data = mpg)+geom_point(mapping = aes(x = class,y=drv))
 ```
+#3.3.1 Exercises
+1<br />
+Q: What’s gone wrong with this code? Why are the points not blue?<br />
+A:The color is in the mapping argument so ggplot is essentially understanding it as a database varaiable named color. to fix it one should use<br /> 
+
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+```
+2<br />
+Q: Which variables in mpg are categorical? Which variables are continuous? (Hint: type ?mpg to read the documentation for the dataset). How can you see this information when you run mpg? <br />
+A: Categorical: model, trans, drv, fl, class. Continuous: displ, year,cyl,cty,hwy.<br />
+3<br />
+Q: Map a continuous variable to color, size, and shape. How do these aesthetics behave differently for categorical vs. continuous variables?<br />
+A: for shape we get an Error "A continuous variable can not be mapped to shape". Color creates a gradient representing the value change and size maps each size to a range of the variable 
+```{r}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x = class, y = cty ,color = hwy, size = cty))
+```
+4<br />
+Q: What happens if you map the same variable to multiple aesthetics?<br />
+A:It shows both, So if bright blue is >35 and bigest shape is >35, a value that is >35 will be visualized as big and bright blue
+```{r}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x = class, y = cty ,color = hwy, size = cty))
+```
+5 <br />
+Q: What does the stroke aesthetic do? What shapes does it work with? (Hint: use ?geom_point) <br />
+A:It allows editing the outline (or stroke) color of a shape. It only works for shapes that have a fill and stroke.
+```{r}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x = class, y = cty) ,shape = 21 ,color = "red", fill = "black",stroke = 1, size = 5)
+```
+6<br />
+Q:What happens if you map an aesthetic to something other than a variable name, like aes(colour = displ < 5)? Note, you’ll also need to specify x and y.
+A: The plot maps the "displ" values to a binary variable all that are <5 will get one color all that are >5 will get another color.
+```{r}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x = class, y = cty ,color = displ < 5))
+```
+#3.5.1 Exercises
+4<br />
+Q: Take the first faceted plot in this section:<br / >
+```{r}
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy)) + facet_wrap(~ class, nrow = 2)
+```
+  What are the advantages to using faceting instead of the colour aesthetic? What are the disadvantages? <br />
+  How might the balance change if you had a larger dataset? <br />
+  A: Faceting makes it easier to see trends per specific category in an acurate way. It's harder to understand fast and requires more attention to read. In a bigger data set I might have ranged the hwy variable making it an ordered catecogriccal and the use frequencie boxes.
+5<br />
+Q: Read ?facet_wrap. What does nrow do? What does ncol do? What other options control the layout of the individual panels? Why doesn’t facet_grid() have nrow and ncol arguments? <br />
+A: The nrow and ncol define the number of rows and coloumns the facets will be displayed in. There is also "dir" defininig the direction of the facet and strip.position to set the location of labels. facet_grid() does not have nrow/ncol since a these are defined by the variables passed to the grid (if there are 3 optins for a variable that is visualized in the rows the grip will have 3 rows)
+```{r}
+?facet_wrap
+```
+##  3.6.1 
+
+  
+  
 
