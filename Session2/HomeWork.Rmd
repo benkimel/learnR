@@ -1,0 +1,50 @@
+---
+title: "COMPSCIX415.2-003 Session 2"
+author: "ben kimel green"
+date: "2/6/2019"
+output: 
+  html_document: 
+    toc: yes
+    self_contained: true
+---
+
+```{r setup, include=FALSE , warning=FALSE, message=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(echo = TRUE,warning=FALSE, message=FALSE)
+data(mpg)
+```
+#3.2.4 Exercises
+<br />
+1 <br />
+Q:Run ggplot(data = mpg). What do you see?<br />
+A: I see an empty graph 
+```{r}
+ ggplot(data = mpg)
+```
+<br />
+2<br />
+Q: How many rows are in mpg? How many columns?<br />
+A: 234 rows and 11 columns
+```{r}
+nrow(mpg)
+ncol(mpg)
+```
+<br />
+3<br />
+Q:What does the drv variable describe? Read the help for ?mpg to find out.<br />
+A:The drv variable tells us if a car is front, back or 4 wheel drive 
+```{r}
+?mpg
+```
+4<br />
+Make a scatterplot of hwy vs cyl.
+```{r}
+ggplot(data = mpg)+geom_point(mapping = aes(x = hwy,y=cyl))
+```
+5<br />
+Q: What happens if you make a scatterplot of class vs drv? Why is the plot not useful?<br />
+A:The plot is not very useful since both varaiables are qualtative and it maybe better to have the results in a table or some other visualisation method
+```{r}
+ggplot(data = mpg)+geom_point(mapping = aes(x = class,y=drv))
+```
+
