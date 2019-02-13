@@ -143,11 +143,11 @@ Q: What does geom_col() do? How is it different to geom_bar()?
 A: They are the same type of plot using a different stat. geom_bar defaults to height of the box representing the number of cases. in geom_col we need to provide another variable from the data set that will be represented as the bar height.
 
 #Infographic analasys
-The info-graphic we are anlayzing is about trends in the data science field in industry. The general looks and color scheme of the info graphic is appealing but the use of pretty similar colors for the whole document makes it slightly hard to orient oneself.
+The info-graphic we are anlayzing is about trends in the data science field in industry. The general looks and color scheme of the info graphic is appealing but the use of pretty similar colors for the whole document makes it slightly hard to orient oneself.<br />
 The first part is a text introduction. after it follows a pie chart that gives a prediction of the demand for data scientists. I think this is a poor choice for showing prediction information since it gives the notion of distribution.
-Next there is a bar plot- The boxes size ratio is not accurate (12% is 1/4 of the size of the 24% box) in a slightly confusing way. Having the number of % on the box helps looking beyond this issue.
-The following part shows what looks like the raw numbers for a specific questions in the survey. It's pretty clear. could also have been done with bar plot.
-The next 2 parts are compering data scientist and business intelligence workers educational background while each of the comparing points are clear (say the percentage of Data scientist that have doctoral degree to the percentage of BIs with same degree) it is hard to understand the full story, I think I would have juxtaposition the diversity of background for each (DS and BI) so it will also be easy to understand the ratio within each group.
-The pie chart about whether data scientist are creating more jobs for data scientist is pretty clear.
-The characteristics of data scientist part is just wired. 
+Next there is a bar plot- The boxes size ratio is not accurate (12% is 1/4 of the size of the 24% box) in a slightly confusing way. Having the number of % on the box helps looking beyond this issue.<br />
+The following part shows what looks like the raw numbers for a specific questions in the survey. It's pretty clear. could also have been done with bar plot.<br />
+The next 2 parts are compering data scientist and business intelligence workers educational background while each of the comparing points are clear (say the percentage of Data scientist that have doctoral degree to the percentage of BIs with same degree) it is hard to understand the full story, I think I would have juxtaposition the diversity of background for each (DS and BI) so it will also be easy to understand the ratio within each group.<br />
+The pie chart about whether data scientist are creating more jobs for data scientist is pretty clear.<br />
+The characteristics of data scientist part is just wired.<br />
 The last part shows boxes with percentage of work interactions for data scientist. The boxes are not sized according to the ratio. I think this choice was made because the spread is pretty even, but in a case like this maybe a table would have been clearer. Another confusing issue about this part is that it's not clear what the percentage are referring to. this information is just missing. The fact that the percentage some to about 150% makes it even weirder.  
