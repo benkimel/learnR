@@ -1,0 +1,46 @@
+---
+title: "COMPSCIX 415.2 Homework 3"
+author: "ben kimel green"
+date: "2/14/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(echo = TRUE)
+```
+##3.8.1 Exercises
+1.<br/>
+Q:What is the problem with this plot? How could you improve it?<br/>
+A: The points in this plot are on top of each other so it's hard to see the actual distribution. We can use jitter to solve it <br/>
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("Bad Plot")
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("Better Plot")+geom_jitter()
+``` 
+<br/>
+2.<br/>
+Q:What parameters to `geom_jitter()` control the amount of jittering?
+A:We can control the amount of jitter passing `height` and `width` parameters. see following examples. <br/>
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("over ride jitter by setting to 0 jitter")+geom_jitter(width = 0,height = 0)
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("jitter width only")+geom_jitter(width =0.5,height = 0)
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("jitter height only")+geom_jitter(width = 0,height = 0.5)
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("jitter height and width")+geom_jitter(width = 0.5,height = 0.5)
+```
+<br/>
+3.<br/>
+Q: Compare and contrast `geom_jitter()` with `geom_count()`<br/>
+A: `geom_count()` helps solve the same issue as `geom_jitter()` by visualizing how many observetions are at a location on the plot. The diffrence is it visualizes this by mapping the point size to the amount of observetion at a location<br/>
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("Jitter")+geom_jitter()
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("Count")+geom_count()
+```
