@@ -18,7 +18,7 @@ A: The points in this plot are on top of each other so it's hard to see the actu
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
   geom_point()+ggtitle("Bad Plot")
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
-  geom_point()+ggtitle("Better Plot")+geom_jitter()
+  geom_point(position = "jitter")+ggtitle("Better Plot")
 ``` 
 <br/>
 2.<br/>
@@ -26,7 +26,7 @@ Q:What parameters to `geom_jitter()` control the amount of jittering?
 A:We can control the amount of jitter passing `height` and `width` parameters. see following examples. <br/>
 ```{r}
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
-  geom_point()+ggtitle("over ride jitter by setting to 0 jitter")+geom_jitter(width = 0,height = 0)
+  geom_point()+ggtitle("override jitter by setting to 0 jitter")+geom_jitter(width = 0,height = 0)
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
   geom_point()+ggtitle("jitter width only")+geom_jitter(width =0.5,height = 0)
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
@@ -44,3 +44,32 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
   geom_point()+ggtitle("Count")+geom_count()
 ```
+<br/>
+4.<br/>
+Q: What’s the default position adjustment for `geom_boxplot()`? Create a visualisation of the mpg dataset that demonstrates it.<br/>
+A:Not sure couldn't make a diffrence using position
+```{r}
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
+  geom_boxplot()
+```
+##3.9.1
+2.<br/>
+Q: What does `labs()` do? Read the documentation.
+A: `labs()` enables editing all the labels for a plot see the following example using most of `labs()` parameters
+```{r}
+nz <- map_data("nz")
+ggplot(nz, aes(long, lat, group = group)) +
+  geom_polygon(fill = "white", colour = "black") +
+  coord_quickmap()+labs(title = "This is NZ",subtitle= "usually it is ommited from maps but not today",caption = "R was first created here!",x = "NZ x axis",y = "NZ y axis", tag = "a tag")
+```
+<br/>
+4.<br/>
+Q: What does the plot below tell you about the relationship between city and highway mpg? Why is `coord_fixed()` important? What does `geom_abline()` do?<br/>
+A:<br/>
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline() +
+
+```
+
