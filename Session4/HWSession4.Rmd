@@ -58,19 +58,39 @@ not_cancelled %>% count(dest,sort = FALSE)
 ```
 #10.5
 1.<br/>
-1.How can you tell if an object is a tibble? (Hint: try printing mtcars, which is a regular data frame).<br/>
+Q:How can you tell if an object is a tibble? (Hint: try printing mtcars, which is a regular data frame).<br/>
+A:in a tibble the print looks nicer and easier to read in the console. the R markdown view is pretty similar <br/>
+```{r}
+mtcars
+as_tibble(mtcars)
+```
 
 2.<br/>
 Compare and contrast the following operations on a data.frame and equivalent tibble. What is different? Why might the default data frame behaviours cause you frustration?
-```
+A: not sure yet
+```{r}
 df <- data.frame(abc = 1, xyz = "a")
 df$x
 df[, "xyz"]
 df[, c("abc", "xyz")]
+
+t<-tibble(
+  abc = 1,
+  xyz = "a"
+)
+t
 ```
 
 3.<br/>
-If you have the name of a variable stored in an object, e.g. var <- "mpg", how can you extract the reference variable from a tibble?
+Q: If you have the name of a variable stored in an object, e.g. var <- "mpg", how can you extract the reference variable from a tibble?
+A: see in code below
+```{r}
+tib<-tibble(
+  mpg = 20,
+)
+name <- "mpg"
+tib[[name]]
+```
 
 6.<br/>
 What option controls how many additional column names are printed at the footer of a tibble?<br/>
@@ -118,3 +138,14 @@ tibble(x = c("a,b,c", "d,e", "f,g,i")) %>%
 ```
 2.<br/>
 Both `unite()` and `separate()` have a remove argument. What does it do? Why would you set it to FALSE?
+
+
+#More questions
+Answer these questions:
+Follow these steps:
+- Download the baby_names.txt file from Canvas which is in the Homework 4 assignment section.
+- Load this file into R correctly and take a glimpse of the output.
+- Export this file as a csv file and call it ‘baby_names.csv’.
+- Reload the baby_names.csv file and take another glimpse.
+- Show all of your code and the output. There should be two data import lines of code, one data export
+line of code, and two glimpses of the data.
