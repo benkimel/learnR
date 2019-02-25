@@ -93,52 +93,56 @@ tib[[name]]
 ```
 
 6.<br/>
-What option controls how many additional column names are printed at the footer of a tibble?<br/>
-
+Q:What option controls how many additional column names are printed at the footer of a tibble?<br/>
+A:needed to use ` symbol since the names start with a number.
 
 #12.3.3
 2.<br/>
 Why does this code fail?
-```
-table4a %>% gather(1999, 2000, key = "year", value = "cases")
+```{r}
+table4a %>% gather(`1999`, `2000`, key = "year", value = "cases")
 ```
 #> Error in inds_combine(.vars, ind_list): Position must be between 0 and n
 
 3.<br/>
-Why does spreading this tibble fail? How could you add a new column to fix the problem?
-```
+Q: Why does spreading this tibble fail? How could you add a new column to fix the problem?<br/>
+A: seems like it failed since a single name has 2 ages. This probebly means there are 2 pepole with the same name. the code below solves this by adding an ID to column 
+```{r}
 people <- tribble(
-  ~name,             ~key,    ~value,
-  #-----------------|--------|------
-  "Phillip Woods",   "age",       45,
-  "Phillip Woods",   "height",   186,
-  "Phillip Woods",   "age",       50,
-  "Jessica Cordero", "age",       37,
-  "Jessica Cordero", "height",   156
+  ~name,             ~key,    ~value,~ID,
+  #-----------------|--------|-------|----
+  "Phillip Woods",   "age",       45,  1,
+  "Phillip Woods",   "height",   186,  1,
+  "Phillip Woods",   "age",       50,  2,
+  "Jessica Cordero", "age",       37,  3,
+  "Jessica Cordero", "height",   156,  3
 )
+people%>% spread(key = key, value = value)
 ```
 4.<br/>
-Tidy the simple tibble below. Do you need to spread or gather it? What are the variables?
-```
+Tidy the simple tibble below. Do you need to spread or gather it? What are the variables?<br/>
+```{r}
 preg <- tribble(
   ~pregnant, ~male, ~female,
   "yes",     NA,    10,
   "no",      20,    12
 )
+preg
 ```
 #12.4.3
 1.<br/>
-What do the extra and fill arguments do in separate()? Experiment with the various options for the following two toy datasets.
-```
-tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
-  separate(x, c("one", "two", "three"))
+Q:What do the extra and fill arguments do in separate()? Experiment with the various options for the following two toy datasets.<br/>
+A:these arguments define the behaviour of `seperate` when ther are missing/extra or on even input char array.
 
+```{r}
+tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
+  separate(x, c("one", "two", "three"),extra = "drop")
 tibble(x = c("a,b,c", "d,e", "f,g,i")) %>% 
-  separate(x, c("one", "two", "three"))
+  separate(x, c("one", "two", "three"),fill = "right")
 ```
 2.<br/>
-Both `unite()` and `separate()` have a remove argument. What does it do? Why would you set it to FALSE?
-
+Q:Both `unite()` and `separate()` have a remove argument. What does it do? Why would you set it to FALSE?<br/>
+A: setting remove to TRUE will remove the input column from the data frame result. We will set it to false if we still need the input column.
 
 #More questions
 Answer these questions:
@@ -149,3 +153,14 @@ Follow these steps:
 - Reload the baby_names.csv file and take another glimpse.
 - Show all of your code and the output. There should be two data import lines of code, one data export
 line of code, and two glimpses of the data.
+```{r}
+file_path <- '~/Desktop/baby_names.txt'
+baby_data_txt <- read_delim(file = file_path,delim = "|")
+glimpse(baby_data_txt)
+
+file_path1 <- '~/Desktop/baby_names.csv'
+write_csv(baby_data_txt,file_path1)
+baby_data_csv <- read_csv(file = file_path1)
+glimpse(baby_data_csv)
+```
+
