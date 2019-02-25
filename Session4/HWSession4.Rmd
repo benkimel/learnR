@@ -1,0 +1,59 @@
+---
+title: "COMPSCIX 415.2 Homework 4"
+author: "ben kimel green"
+date: "2/25/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(nycflights13)
+library(dplyr)
+library(tidyverse)
+not_cancelled <- flights %>% 
+  filter(!is.na(dep_delay), !is.na(arr_delay))
+```
+#5.6.7
+2.<br/>
+-Come up with another approach that will give you the same output as `not_cancelled %>% count(dest)` and `not_cancelled %>% count(tailnum, wt = distance)` (without using count()).<br/>
+```{r}
+not_cancelled %>% group_by(dest)%>% 
+  summarise(
+    n = n()
+  )
+not_cancelled %>% group_by(tailnum)%>% 
+  summarise(
+    wt = sum(distance)
+  )
+
+```
+4.<br/>
+Q:Look at the number of cancelled flights per day. Is there a pattern? Is the proportion of cancelled flights related to the average delay?<br/>
+A:By ploting the delay per day and the canceled per day it looks like days that have alot of delays also have more cancelled flights. it seems that in extreme cancel amount the delays start droping.<br/> I would guess that bad weather can cause alot of delays and probebly is a main cause for canceled flights hence comes the correclation. 
+```{r}
+cancelled <- flights %>% 
+  filter(is.na(dep_delay), is.na(arr_delay))%>%group_by(month,day)%>%summarise(
+    n = n()
+  )
+
+delays <- not_cancelled %>% 
+    group_by(month,day)%>%summarise(
+    avg_delay = mean(arr_delay),
+    n = n()
+  )
+delays_and_cancel <- merge(delays,cancelled, by = c("month","day"))
+delays_and_cancel$cancelled <- delays_and_cancel$n.y
+delays_and_cancel$n.y <-NULL
+delays_and_cancel$n.x <-NULL
+
+
+ggplot (data = delays_and_cancel, aes(x= cancelled,y= avg_delay))+geom_point()
+```
+6.<br/>
+Q:What does the sort argument to count() do. When might you use it?<br/>
+A:<br/>
+```{r}
+not_cancelled %>% count(dest,sort = TRUE)
+not_cancelled %>% count(dest,sort = FALSE)
+```
+
