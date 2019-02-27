@@ -1,0 +1,75 @@
+---
+title: "COMPSCIX 415.2 Homework 5/Midterm"
+author: "ben kimel green"
+date: "2/27/2019"
+output: 
+  html_document: 
+    theme: yeti
+    toc: yes
+    toc_depth: 4
+---
+# Midterms
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+## The tidyverse packages
+
+#### 1. Can you name which package is associated with each task below?
+  + Plotting - ggplot2
+  + Data munging/wrangling - dplyr
+  + Reshaping (speading and gathering) data - tidyr
+  + Importing/exporting data - readr
+  
+#### 2. Now can you name two functions that you’ve used from each package that you listed above for these tasks?
+
+  + ggplot2 - ggplot, geom_point
+  + dplyr - filter, summarise
+  + tidyr - spread, separate
+  + readr - read_csv, write_delim
+
+##R Basics 
+
+#### 1. Fix this code with the fewest number of changes possible so it works:
+
+```{r}
+My_data.name___is.too00ooLong <- c( 1 , 2   , 3 )
+```
+
+#### 2. Fix this code so it works:
+
+```{r}
+my_string <- c('has', 'an', 'error', 'in', 'it')
+```
+
+#### 3. Look at the code below and comment on what happened to the values in the vector.
+The vector changed all the values to be of type char
+
+```{r}
+my_vector <- c(1, 2, '3', '4', 5)
+my_vector
+```
+
+## Data import/export
+
+#### 1. Download the rail_trail.txt file from Canvas (in the Midterm Exam section) and successfully import it into R. Prove that it was imported successfully by including your import code and taking a glimpse of the result.
+```{r}
+file_path <- '~/Desktop/rail_trail.txt'
+trails <- read_delim(file = file_path,delim = "|")
+glimpse(trails)
+```
+
+#### 2. Export the file into a comma-separated file and name it “rail_trail.csv”. Make sure you define the path correctly so that you know where it gets saved. Then reload the file. Include your export and import code and take another glimpse.
+```{r}
+file_path_write <- '~/Desktop/rail_trail.csv'
+write_csv(trails,file_path_write)
+trails_csv <- read_csv(file = file_path_write)
+glimpse(trails_csv)
+```
+##Visualization
+
+#### 1.Critique this graphic: give only three examples of what is wrong with this graphic. Be concise.
+
+1. it's bad
+2. it's bad
+3. it's not good
