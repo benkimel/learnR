@@ -6,7 +6,7 @@ output:
   html_document: 
     theme: yeti
     toc: yes
-    toc_depth: 4
+    toc_depth: 2
 ---
 # Midterms
 ```{r setup, include=FALSE}
@@ -70,6 +70,27 @@ glimpse(trails_csv)
 
 #### 1.Critique this graphic: give only three examples of what is wrong with this graphic. Be concise.
 
-1. it's bad
-2. it's bad
-3. it's not good
+1. Combining age related description together with gender. I would use 2 diffrent graphics.
+2. Using a sized circle to show propetion from is confusing. Bar chart or even pie chart would have been nicer. 
+3. The numbers don't add up to 100% and the 10%-5%  missing are not explained
+
+#### 2. Reproduce this graphic using the `diamonds` data set.
+```{r}
+data(diamonds)
+ggplot(data = diamonds) +
+  geom_boxplot(mapping = aes(x = cut, y = carat, fill = color),position = "identity")+
+  scale_fill_brewer(palette="Set2")+
+  labs(x = "CUT OF DIAMONDS", y = "CARAT OF DIAMOND")+
+  coord_flip()
+```
+
+##Data munging and wrangling
+
+#### 1. Is this data “tidy”? If yes, leave it alone and go to the next problem. If no, make it tidy. Note: this data set is called table2 and is available in the tidyverse package. It should be ready for you to use after you’ve loaded the tidyverse package.
+
+#### 2. Create a new column in the diamonds data set called price_per_carat that shows the price of each diamond per carat (hint: divide). Only show me the code, not the output.
+
+#### 3. For each cut of diamond in the diamonds data set, how many diamonds, and what proportion, have a price > 10000 and a carat < 1.5? There are several ways to get to an answer, but your solution must use the data wrangling verbs from the tidyverse in order to get credit.
+
++ Do the results make sense? Why?
++ Do we need to be wary of any of these numbers? Why?
