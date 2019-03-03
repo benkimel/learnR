@@ -1,0 +1,166 @@
+---
+title: "COMPSCIX 415.2 Homework 4"
+author: "ben kimel green"
+date: "2/25/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(nycflights13)
+library(dplyr)
+library(tidyverse)
+not_cancelled <- flights %>% 
+  filter(!is.na(dep_delay), !is.na(arr_delay))
+```
+#5.6.7
+2.<br/>
+-Come up with another approach that will give you the same output as `not_cancelled %>% count(dest)` and `not_cancelled %>% count(tailnum, wt = distance)` (without using count()).<br/>
+```{r}
+not_cancelled %>% group_by(dest)%>% 
+  summarise(
+    n = n()
+  )
+not_cancelled %>% group_by(tailnum)%>% 
+  summarise(
+    wt = sum(distance)
+  )
+
+```
+4.<br/>
+Q:Look at the number of cancelled flights per day. Is there a pattern? Is the proportion of cancelled flights related to the average delay?<br/>
+A:By ploting the delay per day and the canceled per day it looks like days that have alot of delays also have more cancelled flights. it seems that in extreme cancel amount the delays start droping.<br/> I would guess that bad weather can cause alot of delays and probebly is a main cause for canceled flights hence comes the correclation. 
+```{r}
+cancelled <- flights %>% 
+  filter(is.na(dep_delay), is.na(arr_delay))%>%group_by(month,day)%>%summarise(
+    n = n()
+  )
+
+delays <- not_cancelled %>% 
+    group_by(month,day)%>%summarise(
+    avg_delay = mean(arr_delay),
+    n = n()
+  )
+delays_and_cancel <- merge(delays,cancelled, by = c("month","day"))
+delays_and_cancel$cancelled <- delays_and_cancel$n.y
+delays_and_cancel$n.y <-NULL
+delays_and_cancel$n.x <-NULL
+
+
+ggplot (data = delays_and_cancel, aes(x= cancelled,y= avg_delay))+geom_point()
+```
+6.<br/>
+Q:What does the sort argument to count() do. When might you use it?<br/>
+A:The sort arranges the rows by n<br/>
+```{r}
+not_cancelled %>% count(dest,sort = TRUE)
+not_cancelled %>% count(dest,sort = FALSE)
+```
+#10.5
+1.<br/>
+Q:How can you tell if an object is a tibble? (Hint: try printing mtcars, which is a regular data frame).<br/>
+A:in a tibble the print looks nicer and easier to read in the console. the R markdown view is pretty similar <br/>
+```{r}
+mtcars
+as_tibble(mtcars)
+```
+
+2.<br/>
+Compare and contrast the following operations on a data.frame and equivalent tibble. What is different? Why might the default data frame behaviours cause you frustration?
+A: not sure yet
+```{r}
+df <- data.frame(abc = 1, xyz = "a")
+df$x
+df[, "xyz"]
+df[, c("abc", "xyz")]
+
+t<-tibble(
+  abc = 1,
+  xyz = "a"
+)
+t
+```
+
+3.<br/>
+Q: If you have the name of a variable stored in an object, e.g. var <- "mpg", how can you extract the reference variable from a tibble?
+A: see in code below
+```{r}
+tib<-tibble(
+  mpg = 20,
+)
+name <- "mpg"
+tib[[name]]
+```
+
+6.<br/>
+Q:What option controls how many additional column names are printed at the footer of a tibble?<br/>
+A:needed to use ` symbol since the names start with a number.
+
+#12.3.3
+2.<br/>
+Why does this code fail?
+```{r}
+table4a %>% gather(`1999`, `2000`, key = "year", value = "cases")
+```
+#> Error in inds_combine(.vars, ind_list): Position must be between 0 and n
+
+3.<br/>
+Q: Why does spreading this tibble fail? How could you add a new column to fix the problem?<br/>
+A: seems like it failed since a single name has 2 ages. This probebly means there are 2 pepole with the same name. the code below solves this by adding an ID to column 
+```{r}
+people <- tribble(
+  ~name,             ~key,    ~value,~ID,
+  #-----------------|--------|-------|----
+  "Phillip Woods",   "age",       45,  1,
+  "Phillip Woods",   "height",   186,  1,
+  "Phillip Woods",   "age",       50,  2,
+  "Jessica Cordero", "age",       37,  3,
+  "Jessica Cordero", "height",   156,  3
+)
+people%>% spread(key = key, value = value)
+```
+4.<br/>
+Tidy the simple tibble below. Do you need to spread or gather it? What are the variables?<br/>
+```{r}
+preg <- tribble(
+  ~pregnant, ~male, ~female,
+  "yes",     NA,    10,
+  "no",      20,    12
+)
+preg
+```
+#12.4.3
+1.<br/>
+Q:What do the extra and fill arguments do in separate()? Experiment with the various options for the following two toy datasets.<br/>
+A:these arguments define the behaviour of `seperate` when ther are missing/extra or on even input char array.
+
+```{r}
+tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
+  separate(x, c("one", "two", "three"),extra = "drop")
+tibble(x = c("a,b,c", "d,e", "f,g,i")) %>% 
+  separate(x, c("one", "two", "three"),fill = "right")
+```
+2.<br/>
+Q:Both `unite()` and `separate()` have a remove argument. What does it do? Why would you set it to FALSE?<br/>
+A: setting remove to TRUE will remove the input column from the data frame result. We will set it to false if we still need the input column.
+
+#More questions
+Answer these questions:
+Follow these steps:
+- Download the baby_names.txt file from Canvas which is in the Homework 4 assignment section.
+- Load this file into R correctly and take a glimpse of the output.
+- Export this file as a csv file and call it ‘baby_names.csv’.
+- Reload the baby_names.csv file and take another glimpse.
+- Show all of your code and the output. There should be two data import lines of code, one data export
+line of code, and two glimpses of the data.
+```{r}
+file_path <- '~/Desktop/baby_names.txt'
+baby_data_txt <- read_delim(file = file_path,delim = "|")
+glimpse(baby_data_txt)
+
+file_path1 <- '~/Desktop/baby_names.csv'
+write_csv(baby_data_txt,file_path1)
+baby_data_csv <- read_csv(file = file_path1)
+glimpse(baby_data_csv)
+```
+

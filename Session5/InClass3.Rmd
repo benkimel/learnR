@@ -1,0 +1,22 @@
+---
+title: "In_class_4"
+author: "ben kimel green"
+date: "2/26/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## R Markdown
+```{r}
+data("diamonds")
+diamonds%>%arrange(desc (y))
+```
+```{r}
+data(faithful)
+glimpse(faithful)
+```
+

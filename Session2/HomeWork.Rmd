@@ -1,0 +1,153 @@
+---
+title: "COMPSCIX415.2-003 Session 2"
+author: "ben kimel green"
+date: "2/6/2019"
+output: 
+  html_document: 
+    toc: yes
+    self_contained: true
+---
+
+```{r setup, include=FALSE , warning=FALSE, message=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(echo = TRUE,warning=FALSE, message=FALSE)
+data(mpg)
+```
+#3.2.4 Exercises
+<br />
+1 <br />
+Q:Run ggplot(data = mpg). What do you see?<br />
+A: I see an empty graph 
+```{r}
+ ggplot(data = mpg)
+```
+<br />
+2<br />
+Q: How many rows are in mpg? How many columns?<br />
+A: 234 rows and 11 columns
+```{r}
+nrow(mpg)
+ncol(mpg)
+```
+<br />
+3<br />
+Q:What does the drv variable describe? Read the help for ?mpg to find out.<br />
+A:The drv variable tells us if a car is front, back or 4 wheel drive 
+```{r}
+?mpg
+```
+4<br />
+Make a scatterplot of hwy vs cyl.
+```{r}
+ggplot(data = mpg)+geom_point(mapping = aes(x = hwy,y=cyl))
+```
+5<br />
+Q: What happens if you make a scatterplot of class vs drv? Why is the plot not useful?<br />
+A:The plot is not very useful since both variables are categorical and it maybe better to have the results in a table or some other visualization method
+```{r}
+ggplot(data = mpg)+geom_point(mapping = aes(x = class,y=drv))
+```
+#3.3.1 Exercises
+1<br />
+Q: What’s gone wrong with this code? Why are the points not blue?<br />
+A:The color is in the mapping argument so ggplot is essentially understanding it as a database variable named color. to fix it one should use<br /> 
+
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+```
+2<br />
+Q: Which variables in mpg are categorical? Which variables are continuous? (Hint: type ?mpg to read the documentation for the dataset). How can you see this information when you run mpg? <br />
+A: Categorical: model, trans, drv, fl, class. Continuous: displ, year,cyl,cty,hwy.<br />
+3<br />
+Q: Map a continuous variable to color, size, and shape. How do these aesthetics behave differently for categorical vs. continuous variables?<br />
+A: for shape we get an Error "A continuous variable can not be mapped to shape". Color creates a gradient representing the value change and size maps each size to a range of the variable 
+```{r}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x = class, y = cty ,color = hwy, size = cty))
+```
+4<br />
+Q: What happens if you map the same variable to multiple aesthetics?<br />
+A:It shows both, So if bright blue is >35 and biggest shape is >35, a value that is >35 will be visualized as big and bright blue
+```{r}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x = class, y = cty ,color = hwy, size = cty))
+```
+5 <br />
+Q: What does the stroke aesthetic do? What shapes does it work with? (Hint: use ?geom_point) <br />
+A:It allows editing the outline (or stroke) color of a shape. It only works for shapes that have a fill and stroke.
+```{r}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x = class, y = cty) ,shape = 21 ,color = "red", fill = "black",stroke = 1, size = 5)
+```
+6<br />
+Q:What happens if you map an aesthetic to something other than a variable name, like aes(color = displ < 5)? Note, you’ll also need to specify x and y.
+A: The plot maps the "displ" values to a binary variable all that are <5 will get one color all that are >5 will get another color.
+```{r}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x = class, y = cty ,color = displ < 5))
+```
+#3.5.1 Exercises
+4<br />
+Q: Take the first faceted plot in this section:<br / >
+```{r}
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy)) + facet_wrap(~ class, nrow = 2)
+```
+  What are the advantages to using faceting instead of the color aesthetic? What are the disadvantages? <br />
+  How might the balance change if you had a larger dataset? <br />
+  A: Faceting makes it easier to see trends per specific category in an accurate way. It's harder to understand fast and requires more attention to read. In a bigger data set I might have ranged the hwy variable making it an ordered categorical and the use frequencies boxes.
+5<br />
+Q: Read ?facet_wrap. What does nrow do? What does ncol do? What other options control the layout of the individual panels? Why doesn’t facet_grid() have nrow and ncol arguments? <br />
+A: The nrow and ncol define the number of rows and columns the facets will be displayed in. There is also "dir" defining the direction of the facet and strip.position to set the location of labels. facet_grid() does not have nrow/ncol since a these are defined by the variables passed to the grid (if there are 3 options for a variable that is visualized in the rows the grip will have 3 rows)
+```{r}
+?facet_wrap
+```
+##  3.6.1 
+1<br /> 
+Q: What geom would you use to draw a line chart? A boxplot? A histogram? An area chart? <br />
+A: A geom_line() with a geom_point()<br />
+2<br />
+Q: Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions.
+A: I thought I'll get a scatter plot and 3 lines. both will have the color indicating the drive type of the car. That's actually what happened. I didn't know what (se = FALSE) will do. It removes the standard error around the line.
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+
+```
+3<br />
+Q: What does show.legend = FALSE do? What happens if you remove it?
+Why do you think I used it earlier in the chapter? <br />
+A: it shows and hides the legend for color, size, alpha, ect. I have no idea why the author used it in the beginning of the book.<br />
+
+4<br />
+Q: What does the se argument to geom_smooth() do? <br />
+A: Setting it to false will hide the standard error visualization around the line otherwise shown<br />
+5 <br />
+Q:Will these two graphs look different? Why/why not?<br />
+A: Yes they will look the same. The arguments and flags can be set for all layers of a plot or for each layer alone. Passing the same arguments to each layer or to all at the same times will yield the same result
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+
+ggplot() + 
+  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+```
+#3.7.1 Exercises
+2<br />
+Q: What does geom_col() do? How is it different to geom_bar()?
+A: They are the same type of plot using a different stat. geom_bar defaults to height of the box representing the number of cases. in geom_col we need to provide another variable from the data set that will be represented as the bar height.
+
+#Infographic analasys
+The info-graphic we are anlayzing is about trends in the data science field in industry. The general looks and color scheme of the info graphic is appealing but the use of pretty similar colors for the whole document makes it slightly hard to orient oneself.<br />
+The first part is a text introduction. after it follows a pie chart that gives a prediction of the demand for data scientists. I think this is a poor choice for showing prediction information since it gives the notion of distribution.
+Next there is a bar plot- The boxes size ratio is not accurate (12% is 1/4 of the size of the 24% box) in a slightly confusing way. Having the number of % on the box helps looking beyond this issue.<br />
+The following part shows what looks like the raw numbers for a specific questions in the survey. It's pretty clear. could also have been done with bar plot.<br />
+The next 2 parts are compering data scientist and business intelligence workers educational background while each of the comparing points are clear (say the percentage of Data scientist that have doctoral degree to the percentage of BIs with same degree) it is hard to understand the full story, I think I would have juxtaposition the diversity of background for each (DS and BI) so it will also be easy to understand the ratio within each group.<br />
+The pie chart about whether data scientist are creating more jobs for data scientist is pretty clear.<br />
+The characteristics of data scientist part is just wired.<br />
+The last part shows boxes with percentage of work interactions for data scientist. The boxes are not sized according to the ratio. I think this choice was made because the spread is pretty even, but in a case like this maybe a table would have been clearer. Another confusing issue about this part is that it's not clear what the percentage are referring to. this information is just missing. The fact that the percentage some to about 150% makes it even weirder.  

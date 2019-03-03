@@ -1,0 +1,156 @@
+---
+title: "COMPSCIX 415.2 Homework 3"
+author: "ben kimel green"
+date: "2/14/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(echo = TRUE)
+```
+##3.8.1 Exercises
+1.<br/>
+Q:What is the problem with this plot? How could you improve it?<br/>
+A: The points in this plot are on top of each other so it's hard to see the actual distribution. We can use jitter to solve it <br/>
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("Bad Plot")
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point(position = "jitter")+ggtitle("Better Plot")
+``` 
+<br/>
+2.<br/>
+Q:What parameters to `geom_jitter()` control the amount of jittering?
+A:We can control the amount of jitter passing `height` and `width` parameters. see following examples. <br/>
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("override jitter by setting to 0 jitter")+geom_jitter(width = 0,height = 0)
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("jitter width only")+geom_jitter(width =0.5,height = 0)
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("jitter height only")+geom_jitter(width = 0,height = 0.5)
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("jitter height and width")+geom_jitter(width = 0.5,height = 0.5)
+```
+<br/>
+3.<br/>
+Q: Compare and contrast `geom_jitter()` with `geom_count()`<br/>
+A: `geom_count()` helps solve the same issue as `geom_jitter()` by visualizing how many observations are at a location on the plot. The difference is it visualizes this by mapping the point size to the amount of observation at a location<br/>
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("Jitter")+geom_jitter()
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()+ggtitle("Count")+geom_count()
+```
+<br/>
+4.<br/>
+Q: What’s the default position adjustment for `geom_boxplot()`? Create a visualization of the mpg data set that demonstrates it.<br/>
+A:Not sure couldn't make a difference using position
+```{r}
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
+  geom_boxplot()
+```
+##3.9.1
+2.<br/>
+Q: What does `labs()` do? Read the documentation.
+A: `labs()` enables editing all the labels for a plot see the following example using most of `labs()` parameters
+```{r}
+nz <- map_data("nz")
+ggplot(nz, aes(long, lat, group = group)) +
+  geom_polygon(fill = "white", colour = "black") +
+  coord_quickmap()+labs(title = "This is NZ",subtitle= "usually it is ommited from maps but not today",caption = "R was first created here!",x = "NZ x axis",y = "NZ y axis", tag = "a tag")
+```
+<br/>
+4.<br/>
+Q: What does the plot below tell you about the relationship between city and highway mpg? Why is `coord_fixed()` important? What does `geom_abline()` do?<br/>
+A:The plot generally shows that city gallons per mile and highway gallon per mile are linearly dependent, a vehicle that is efficient in the city will also be efficient in on the highway.<br/>
+The `coord_fixed` code makes sets the ratio between the x and y values. here it sets it to 1. that is important since the axis represent the same thing (miles per gallon) so keeping the ratio 1:1 tells a more accurate story<br/>
+`geom_abline()` seems to fit a line that represent the relations between the 2 parameters. It gives us an idea on how a change in one will effect the other.
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline() +
+  coord_fixed()
+```
+#4.4<br/>
+1.<br/>
+Q:Why does this code not work?<br/>
+A:There is a typo `ı` instead of `i` in the name of the variable. So `my_varıable` was never declared.<br/>
+```
+my_variable <- 10
+my_varıable
+```
+2.<br/>
+Q:Tweak each of the following R commands so that they run correctly:<br/>
+A:See working code below
+```{r}
+library(tidyverse)
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+filter(mpg, cyl == 8)
+filter(diamonds, carat > 3)
+```
+##5.2.4
+1.<br/>
+Q:Find all flights that:
+
+1. Had an arrival delay of two or more hours
+```{r}
+library(nycflights13)
+filter(flights, arr_delay>120)
+```
+2. Flew to Houston (IAH or HOU)
+```{r}
+filter(flights, (dest == "IAH" | dest == "HOU"))
+```
+3. Were operated by United, American, or Delta
+```{r}
+filter(flights, (carrier == "UA"|carrier == "AA"|carrier == "DL"))
+```
+4. Departed in summer (July, August, and September)
+```{r}
+filter(flights,(month == 7|month == 8|month == 9))
+```
+5. Arrived more than two hours late, but didn’t leave late
+```{r}
+filter(flights,(dep_delay<=0&arr_delay>=120))
+```
+6. Were delayed by at least an hour, but made up over 30 minutes in flight
+```{r}
+filter(flights,(dep_delay>=60& dep_delay-arr_delay>=30))
+```
+7. Departed between midnight and 6am (inclusive)
+```{r}
+filter(flights,(dep_time>=0&dep_time<=600))
+```
+3.<br/>
+Q:How many flights have a missing dep_time? What other variables are missing? What might these rows represent?<br/>
+A:There are `r nrow(filter(flights,is.na(dep_time)))` missing. This flights probably have been canceled<br/>
+```{r}
+filter(flights,is.na(dep_time))
+```
+4.<br/>
+Q:Why is NA ^ 0 not missing? Why is NA | TRUE not missing? Why is FALSE & NA not missing? Can you figure out the general rule? (NA * 0 is a tricky counterexample!)<br/>
+A:I think the idea is following general logic and arithmetic rules while saying that NA is something that we don't know. so NA^0 is 1 because anything^0 = 1 even if we don't know what it is. The other two examples follow the same line. Anything that is "or" TRUE is true and anything that is "and" FALSE is false. 
+##5.4.1
+1.<br/>
+Q: Brainstorm as many ways as possible to select `dep_time`, `dep_delay`, `arr_time`, and `arr_delay` from flights.<br/>
+A: Other then selecting them directly we can use starts_with()/contains()/ends_with() to do it. This is kind of nice since in starts with variation the code can be shorter. here are 2 examples there are allot of other options.
+```{r}
+select(flights,starts_with('dep'),starts_with('arr'))
+select(flights,ends_with('delay'),ends_with('time'),-contains('sched'),-contains('air'))
+```
+
+3.<br/>
+Q: What does the one_of() function do? Why might it be helpful in conjunction with this vector?<br/>
+A: one_of lets us select columns that maybe in the data frame. If the column isn't there it will be ignored. A warning will appear but that's it. for this specific vector the result seems to be the same as directly selecting the columns (see code below), but if the data changes and one of the columns no longer exists the one_of code will still run. 
+```{r}
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+select(flights,one_of(vars))
+select(flights,vars)
+```
+
