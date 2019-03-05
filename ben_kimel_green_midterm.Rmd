@@ -91,7 +91,7 @@ The data in `table2` is not "tidy" as it has cases of TB and country population 
 It is better to have a row for each country for each year as in modifyed data below.
 ```{r}
 data(table2)
-fixed_table2 = table2%>% spread(key = type,value = count)
+fixed_table2 <- table2%>% spread(key = type,value = count)
 head(fixed_table2)
 ```
 
@@ -112,3 +112,58 @@ I would expect. This maybe due to the fact that the amount of diamonds in the da
 diamonds%>%group_by(cut) %>%summarise("high_price_small_carat_num"=sum(carat<1.5&price>1000),"proportion" = sum(carat<1.5&price>1000)/n(), "N" = n())
 ```
 
+##EDA
+
+#### Take a look at the txhousing data set that is included with the ggplot2 package and answer these questions:
+```{r}
+data(txhousing)
+```
+
+* During what time period is this data from?<br/>
+A: 2000-2015
+```{r}
+max(txhousing$year)
+min(txhousing$year)
+```
+
+* How many cities are represented?<br/>
+A: 46
+```{r}
+txhousing%>%count(city)%>%summarise(n=n())
+```
+
+* Which city, month and year had the highest number of sales?<br/>
+A: Houston had max total sales. June was the month with nost sales. 2006 was the year with most sales.
+```{r}
+txhousing%>%count(city,wt = sales)%>%arrange(desc(n))
+txhousing%>%count(month,wt = sales)%>%arrange(desc(n))
+txhousing%>%count(year,wt = sales)%>%arrange(desc(n))
+```
+
+* What kind of relationship do you think exists between the number of listings and the number of sales? Check your assumption and show your work.<br/>
+A:My guess is the more listing there are there will be more sales. Maybe up to a point where there some extreme case where the qmount of listing is stable but sales drop (no one is buying and listings stay up).
+After ploting the relations between the values it seems there is a general tendency to have more sales when there are more listings. this dosn't say much since it is more then likely a result of city size. This data does not contain city size or population so I won't try to factor that in.
+```{r}
+ggplot(txhousing,aes(x= listings, y = sales))+geom_point()
+```
+
+* What proportion of sales is missing for each city?
+```{r}
+txhousing%>%count(city,wt = is.na(sales)/n())%>%arrange(desc(n))
+
+```
+
+* Looking at only the cities and months with greater than 500 sales:
+    - Are the distributions of the median sales price (column name median), when grouped by city,           different? The same? Show your work.<br/>
+      A: not sure about the meaning of this.... I will skip :(
+    - Any cities that stand out that you’d want to investigate further?<br/>
+      A: I think it could be intresting to look at low inventory time cities to understand why sales are so fast in them.
+    - Why might we want to filter out all cities and months with sales less than 500?<br/>
+      A: 500 is a large enough number to figure statistical trends. With lower numbers we may get more influance of extreme cases.
+    
+```{r}
+big_sales<-txhousing%>%filter(sales>500)
+big_sales%>%arrange(inventory)
+```
+  
+  
