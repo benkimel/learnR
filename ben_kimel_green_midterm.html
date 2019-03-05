@@ -215,7 +215,7 @@ $(document).ready(function () {
 <ul>
 <li>Plotting - ggplot2</li>
 <li>Data munging/wrangling - dplyr</li>
-<li>Reshaping (speading and gathering) data - tidyr</li>
+<li>Reshaping (spreading and gathering) data - tidyr</li>
 <li>Importing/exporting data - readr</li>
 </ul>
 </div>
@@ -318,8 +318,8 @@ trails_csv &lt;- read_csv(file = file_path_write)</code></pre>
 <div id="critique-this-graphic-give-only-three-examples-of-what-is-wrong-with-this-graphic.-be-concise." class="section level4">
 <h4>1.Critique this graphic: give only three examples of what is wrong with this graphic. Be concise.</h4>
 <ol style="list-style-type: decimal">
-<li>Combining age related description together with gender. I would use 2 diffrent graphics.</li>
-<li>Using a sized circle to show propetion from is confusing. Bar chart or even pie chart would have been nicer.</li>
+<li>Combining age related description together with gender. I would use 2 different graphics.</li>
+<li>Using a sized circle to show proportion from is confusing. Bar chart or even pie chart would have been nicer.</li>
 <li>The numbers don’t add up to 100% and the 10%-5% missing are not explained</li>
 </ol>
 </div>
@@ -338,7 +338,7 @@ ggplot(data = diamonds) +
 <h2>Data munging and wrangling</h2>
 <div id="is-this-data-tidy-if-yes-leave-it-alone-and-go-to-the-next-problem.-if-no-make-it-tidy." class="section level4">
 <h4>1. Is this data “tidy”? If yes, leave it alone and go to the next problem. If no, make it tidy.</h4>
-<p>The data in <code>table2</code> is not “tidy” as it has cases of TB and country population as diffrent enteries.<br /> It is better to have a row for each country for each year as in modifyed data below.</p>
+<p>The data in <code>table2</code> is not “tidy” as it has cases of TB and country population as different entries.<br /> It is better to have a row for each country for each year as in modified data below.</p>
 <pre class="r"><code>data(table2)
 fixed_table2 &lt;- table2%&gt;% spread(key = type,value = count)
 head(fixed_table2)</code></pre>
@@ -360,8 +360,8 @@ new_diamonds = diamonds%&gt;%mutate(&quot;price_per_carat&quot; = price/carat)</
 <div id="for-each-cut-of-diamond-in-the-diamonds-data-set-how-many-diamonds-and-what-proportion-have-a-price-10000-and-a-carat-1.5-there-are-several-ways-to-get-to-an-answer-but-your-solution-must-use-the-data-wrangling-verbs-from-the-tidyverse-in-order-to-get-credit." class="section level4">
 <h4>3. For each cut of diamond in the diamonds data set, how many diamonds, and what proportion, have a price &gt; 10000 and a carat &lt; 1.5? There are several ways to get to an answer, but your solution must use the data wrangling verbs from the tidyverse in order to get credit.</h4>
 <ul>
-<li>Do the results make sense? Why? As much as I understand they make sense more or less. But I dn’t know if 1000$ (or more) for diamonds under 1.5 carat is reasonable. by the proportion calculation it seems most of the data set is that way.</li>
-<li>Do we need to be wary of any of these numbers? Why? It seems the proportion of high price and under then 1.5 carat is bigger in the <code>fair</code> cut and drops a little bit the better the cut is. This is the opessite of what I would expect. This maybe due to the fact that the amount of diamonds in the data set is bigger for better cuts a fact that can increase variation.</li>
+<li>Do the results make sense? Why? As much as I understand they make sense more or less. But I don’t know if 1000$ (or more) for diamonds under 1.5 carat is reasonable. by the proportion calculation it seems most of the data set is that way.</li>
+<li>Do we need to be wary of any of these numbers? Why? It seems the proportion of high price and under then 1.5 carat is bigger in the <code>fair</code> cut and drops a little bit the better the cut is. This is the opposite of what I would expect. This maybe due to the fact that the amount of diamonds in the data set is bigger for better cuts a fact that can increase variation.</li>
 </ul>
 <pre class="r"><code>diamonds%&gt;%group_by(cut) %&gt;%summarise(&quot;high_price_small_carat_num&quot;=sum(carat&lt;1.5&amp;price&gt;1000),&quot;proportion&quot; = sum(carat&lt;1.5&amp;price&gt;1000)/n(), &quot;N&quot; = n())</code></pre>
 <pre><code>## # A tibble: 5 x 4
@@ -395,7 +395,7 @@ new_diamonds = diamonds%&gt;%mutate(&quot;price_per_carat&quot; = price/carat)</
 ##   &lt;int&gt;
 ## 1    46</code></pre>
 <ul>
-<li>Which city, month and year had the highest number of sales?<br /> A: Houston had max total sales. June was the month with nost sales. 2006 was the year with most sales.</li>
+<li>Which city, month and year had the highest number of sales?<br /> A: Houston had max total sales. June was the month with most sales. 2006 was the year with most sales.</li>
 </ul>
 <pre class="r"><code>txhousing%&gt;%count(city,wt = sales)%&gt;%arrange(desc(n))</code></pre>
 <pre><code>## # A tibble: 46 x 2
@@ -449,7 +449,7 @@ new_diamonds = diamonds%&gt;%mutate(&quot;price_per_carat&quot; = price/carat)</
 ## 15  2000 222483
 ## 16  2015 208124</code></pre>
 <ul>
-<li>What kind of relationship do you think exists between the number of listings and the number of sales? Check your assumption and show your work.<br /> A:My guess is the more listing there are there will be more sales. Maybe up to a point where there some extreme case where the qmount of listing is stable but sales drop (no one is buying and listings stay up). After ploting the relations between the values it seems there is a general tendency to have more sales when there are more listings. this dosn’t say much since it is more then likely a result of city size. This data does not contain city size or population so I won’t try to factor that in.</li>
+<li>What kind of relationship do you think exists between the number of listings and the number of sales? Check your assumption and show your work.<br /> A:My guess is the more listing there are there will be more sales. Maybe up to a point where there some extreme case where the mount of listing is stable but sales drop (no one is buying and listings stay up). After plotting the relations between the values it seems there is a general tendency to have more sales when there are more listings. this doesn’t say much since it is more then likely a result of city size. This data does not contain city size or population so I won’t try to factor that in.</li>
 </ul>
 <pre class="r"><code>ggplot(txhousing,aes(x= listings, y = sales))+geom_point()</code></pre>
 <pre><code>## Warning: Removed 1426 rows containing missing values (geom_point).</code></pre>
@@ -476,8 +476,8 @@ new_diamonds = diamonds%&gt;%mutate(&quot;price_per_carat&quot; = price/carat)</
 <li>Looking at only the cities and months with greater than 500 sales:
 <ul>
 <li>Are the distributions of the median sales price (column name median), when grouped by city, different? The same? Show your work.<br /> A: not sure about the meaning of this…. I will skip :(</li>
-<li>Any cities that stand out that you’d want to investigate further?<br /> A: I think it could be intresting to look at low inventory time cities to understand why sales are so fast in them.</li>
-<li>Why might we want to filter out all cities and months with sales less than 500?<br /> A: 500 is a large enough number to figure statistical trends. With lower numbers we may get more influance of extreme cases.</li>
+<li>Any cities that stand out that you’d want to investigate further?<br /> A: I think it could be interesting to look at low inventory time cities to understand why sales are so fast in them.</li>
+<li>Why might we want to filter out all cities and months with sales less than 500?<br /> A: 500 is a large enough number to figure statistical trends. With lower numbers we may get more influence of extreme cases.</li>
 </ul></li>
 </ul>
 <pre class="r"><code>big_sales&lt;-txhousing%&gt;%filter(sales&gt;500)

@@ -19,7 +19,7 @@ library(tidyverse)
 #### 1. Can you name which package is associated with each task below?
   + Plotting - ggplot2
   + Data munging/wrangling - dplyr
-  + Reshaping (speading and gathering) data - tidyr
+  + Reshaping (spreading and gathering) data - tidyr
   + Importing/exporting data - readr
   
 #### 2. Now can you name two functions that you’ve used from each package that you listed above for these tasks?
@@ -71,8 +71,8 @@ glimpse(trails_csv)
 
 #### 1.Critique this graphic: give only three examples of what is wrong with this graphic. Be concise.
 
-1. Combining age related description together with gender. I would use 2 diffrent graphics.
-2. Using a sized circle to show propetion from is confusing. Bar chart or even pie chart would have been nicer. 
+1. Combining age related description together with gender. I would use 2 different graphics.
+2. Using a sized circle to show proportion from is confusing. Bar chart or even pie chart would have been nicer. 
 3. The numbers don't add up to 100% and the 10%-5%  missing are not explained
 
 #### 2. Reproduce this graphic using the `diamonds` data set.
@@ -88,8 +88,8 @@ ggplot(data = diamonds) +
 ##Data munging and wrangling
 
 #### 1. Is this data “tidy”? If yes, leave it alone and go to the next problem. If no, make it tidy. 
-The data in `table2` is not "tidy" as it has cases of TB and country population as diffrent enteries.<br/>
-It is better to have a row for each country for each year as in modifyed data below.
+The data in `table2` is not "tidy" as it has cases of TB and country population as different entries.<br/>
+It is better to have a row for each country for each year as in modified data below.
 ```{r}
 data(table2)
 fixed_table2 <- table2%>% spread(key = type,value = count)
@@ -105,9 +105,9 @@ new_diamonds = diamonds%>%mutate("price_per_carat" = price/carat)
 
 #### 3. For each cut of diamond in the diamonds data set, how many diamonds, and what proportion, have a price > 10000 and a carat < 1.5? There are several ways to get to an answer, but your solution must use the data wrangling verbs from the tidyverse in order to get credit.
 + Do the results make sense? Why?
-As much as I understand they make sense more or less. But I dn't know if 1000$ (or more) for diamonds under 1.5 carat is reasonable. by the proportion calculation it seems most of the data set is that way.
+As much as I understand they make sense more or less. But I don't know if 1000$ (or more) for diamonds under 1.5 carat is reasonable. by the proportion calculation it seems most of the data set is that way.
 + Do we need to be wary of any of these numbers? Why?
-It seems the proportion of high price and under then 1.5 carat is bigger in the `fair` cut and drops a little bit the better the cut is. This is the opessite of what 
+It seems the proportion of high price and under then 1.5 carat is bigger in the `fair` cut and drops a little bit the better the cut is. This is the opposite of what 
 I would expect. This maybe due to the fact that the amount of diamonds in the data set is bigger for better cuts a fact that can increase variation. 
 ```{r}
 diamonds%>%group_by(cut) %>%summarise("high_price_small_carat_num"=sum(carat<1.5&price>1000),"proportion" = sum(carat<1.5&price>1000)/n(), "N" = n())
@@ -134,7 +134,7 @@ txhousing%>%count(city)%>%summarise(n=n())
 ```
 
 * Which city, month and year had the highest number of sales?<br/>
-A: Houston had max total sales. June was the month with nost sales. 2006 was the year with most sales.
+A: Houston had max total sales. June was the month with most sales. 2006 was the year with most sales.
 ```{r}
 txhousing%>%count(city,wt = sales)%>%arrange(desc(n))
 txhousing%>%count(month,wt = sales)%>%arrange(desc(n))
@@ -142,8 +142,8 @@ txhousing%>%count(year,wt = sales)%>%arrange(desc(n))
 ```
 
 * What kind of relationship do you think exists between the number of listings and the number of sales? Check your assumption and show your work.<br/>
-A:My guess is the more listing there are there will be more sales. Maybe up to a point where there some extreme case where the qmount of listing is stable but sales drop (no one is buying and listings stay up).
-After ploting the relations between the values it seems there is a general tendency to have more sales when there are more listings. this dosn't say much since it is more then likely a result of city size. This data does not contain city size or population so I won't try to factor that in.
+A:My guess is the more listing there are there will be more sales. Maybe up to a point where there some extreme case where the mount of listing is stable but sales drop (no one is buying and listings stay up).
+After plotting the relations between the values it seems there is a general tendency to have more sales when there are more listings. this doesn't say much since it is more then likely a result of city size. This data does not contain city size or population so I won't try to factor that in.
 ```{r}
 ggplot(txhousing,aes(x= listings, y = sales))+geom_point()
 ```
@@ -158,9 +158,9 @@ txhousing%>%count(city,wt = is.na(sales)/n())%>%arrange(desc(n))
     - Are the distributions of the median sales price (column name median), when grouped by city,           different? The same? Show your work.<br/>
       A: not sure about the meaning of this.... I will skip :(
     - Any cities that stand out that you’d want to investigate further?<br/>
-      A: I think it could be intresting to look at low inventory time cities to understand why sales are so fast in them.
+      A: I think it could be interesting to look at low inventory time cities to understand why sales are so fast in them.
     - Why might we want to filter out all cities and months with sales less than 500?<br/>
-      A: 500 is a large enough number to figure statistical trends. With lower numbers we may get more influance of extreme cases.
+      A: 500 is a large enough number to figure statistical trends. With lower numbers we may get more influence of extreme cases.
     
 ```{r}
 big_sales<-txhousing%>%filter(sales>500)
