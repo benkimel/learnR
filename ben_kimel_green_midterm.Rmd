@@ -9,6 +9,7 @@ output:
     toc_depth: 2
 ---
 # Midterms
+### [my github link](https://github.com/benkimel/learnR)
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
