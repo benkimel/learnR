@@ -332,11 +332,26 @@ ggplot(data = diamonds) +
 </div>
 <div id="data-munging-and-wrangling" class="section level2">
 <h2>Data munging and wrangling</h2>
-<div id="is-this-data-tidy-if-yes-leave-it-alone-and-go-to-the-next-problem.-if-no-make-it-tidy.-note-this-data-set-is-called-table2-and-is-available-in-the-tidyverse-package.-it-should-be-ready-for-you-to-use-after-youve-loaded-the-tidyverse-package." class="section level4">
-<h4>1. Is this data “tidy”? If yes, leave it alone and go to the next problem. If no, make it tidy. Note: this data set is called table2 and is available in the tidyverse package. It should be ready for you to use after you’ve loaded the tidyverse package.</h4>
+<div id="is-this-data-tidy-if-yes-leave-it-alone-and-go-to-the-next-problem.-if-no-make-it-tidy." class="section level4">
+<h4>1. Is this data “tidy”? If yes, leave it alone and go to the next problem. If no, make it tidy.</h4>
+<p>The data in <code>table2</code> is not “tidy” as it has cases of TB and country population as diffrent enteries.<br /> It is better to have a row for each country for each year as in modifyed data below.</p>
+<pre class="r"><code>data(table2)
+fixed_table2 = table2%&gt;% spread(key = type,value = count)
+head(fixed_table2)</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583</code></pre>
 </div>
 <div id="create-a-new-column-in-the-diamonds-data-set-called-price_per_carat-that-shows-the-price-of-each-diamond-per-carat-hint-divide.-only-show-me-the-code-not-the-output." class="section level4">
 <h4>2. Create a new column in the diamonds data set called price_per_carat that shows the price of each diamond per carat (hint: divide). Only show me the code, not the output.</h4>
+<pre class="r"><code>data(diamonds)
+new_diamonds = diamonds%&gt;%mutate(&quot;price_per_carat&quot; = price/carat)</code></pre>
 </div>
 <div id="for-each-cut-of-diamond-in-the-diamonds-data-set-how-many-diamonds-and-what-proportion-have-a-price-10000-and-a-carat-1.5-there-are-several-ways-to-get-to-an-answer-but-your-solution-must-use-the-data-wrangling-verbs-from-the-tidyverse-in-order-to-get-credit." class="section level4">
 <h4>3. For each cut of diamond in the diamonds data set, how many diamonds, and what proportion, have a price &gt; 10000 and a carat &lt; 1.5? There are several ways to get to an answer, but your solution must use the data wrangling verbs from the tidyverse in order to get credit.</h4>

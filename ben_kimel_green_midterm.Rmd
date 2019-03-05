@@ -86,11 +86,29 @@ ggplot(data = diamonds) +
 
 ##Data munging and wrangling
 
-#### 1. Is this data “tidy”? If yes, leave it alone and go to the next problem. If no, make it tidy. Note: this data set is called table2 and is available in the tidyverse package. It should be ready for you to use after you’ve loaded the tidyverse package.
+#### 1. Is this data “tidy”? If yes, leave it alone and go to the next problem. If no, make it tidy. 
+The data in `table2` is not "tidy" as it has cases of TB and country population as diffrent enteries.<br/>
+It is better to have a row for each country for each year as in modifyed data below.
+```{r}
+data(table2)
+fixed_table2 = table2%>% spread(key = type,value = count)
+head(fixed_table2)
+```
+
 
 #### 2. Create a new column in the diamonds data set called price_per_carat that shows the price of each diamond per carat (hint: divide). Only show me the code, not the output.
+```{r}
+data(diamonds)
+new_diamonds = diamonds%>%mutate("price_per_carat" = price/carat)
+```
 
 #### 3. For each cut of diamond in the diamonds data set, how many diamonds, and what proportion, have a price > 10000 and a carat < 1.5? There are several ways to get to an answer, but your solution must use the data wrangling verbs from the tidyverse in order to get credit.
-
 + Do the results make sense? Why?
+As much as I understand they make sense more or less. But I dn't know if 1000$ (or more) for diamonds under 1.5 carat is reasonable. by the proportion calculation it seems most of the data set is that way.
 + Do we need to be wary of any of these numbers? Why?
+It seems the proportion of high price and under then 1.5 carat is bigger in the `fair` cut and drops a little bit the better the cut is. This is the opessite of what 
+I would expect. This maybe due to the fact that the amount of diamonds in the data set is bigger for better cuts a fact that can increase variation. 
+```{r}
+diamonds%>%group_by(cut) %>%summarise("high_price_small_carat_num"=sum(carat<1.5&price>1000),"proportion" = sum(carat<1.5&price>1000)/n(), "N" = n())
+```
+
