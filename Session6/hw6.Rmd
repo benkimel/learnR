@@ -1,0 +1,30 @@
+---
+title: "COMPSCIX 415.2 Homework 6"
+author: "ben kimel green"
+date: "3/11/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(mosaicData)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exercise 1
+### 1.What variables are in this data set?<br/>
+the are 3 variables in the data set. `smoker` telling us if the subject is a smoker, `outcome` recording if the subject was alive or dead 20 years after the first survy  and `age` which is the age of the subject in the first survy.<br/>
+
+### 2.How many observations are there and what does each represent?<br/>
+there are `r  count(Whickham)` observations in the data set. Each represents a women that is classified as smoker or never smoked.<br/>
+
+### 3.Create a table (use the R code belw as a guide) and a visualization of the relationship between smoking status and outcome, ignoring age. What do you see? Does it make sense? <br/>
+When ignoring age there does not seem to be a strogn realation between dying after 20 years and smoking. There are 408 samples of subjects under 35, for these samples there are slim chances of dieing before the age of 55 even if they smoke. We also don't have data about how much the samples smoke and there could be a big diffrence between heavy, light and casual smokers.<br/>
+```{r}
+data("Whickham")
+noAgeSummary = Whickham %>% count( smoker, outcome )
+noAgeSummary
+ggplot(noAgeSummary)+geom_col(aes(x = smoker, y = n, fill = outcome ),position = "dodge")
+Whickham %>% count( age < 35 )
+```
+
