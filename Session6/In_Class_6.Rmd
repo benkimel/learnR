@@ -1,0 +1,19 @@
+---
+title: "In_class_6"
+author: "ben kimel green"
+date: "3/5/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(tidyverse)
+library(lubridate)
+myBday <- '24/11/82'
+adDate <- dmy(myBday)
+weekdays(adDate)
+Sys.Date()-adDate
+```
+
