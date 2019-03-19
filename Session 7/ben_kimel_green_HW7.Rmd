@@ -23,16 +23,98 @@ There are `r nrow(housesData)` observtions and `r ncol(housesData)` columns.
 
 #### Visualize the distribution of SalePrice.
 ```{r}
-ggplot(data = housesData,aes (x = SalePrice,y = ))+geom_bar()
+
+ggplot(housesData)+geom_histogram(aes(SalePrice/1000),bins = 20)+xlab("Sale Price in k$")
 ```
 
 ####Visualize the covariation between SalePrice and Neighborhood.
 ```{r}
+by_hood_mean <- housesData%>%group_by(Neighborhood) %>%summarise(avg = mean(SalePrice/1000))
 
+ggplot(by_hood_mean,aes(x = avg,y = Neighborhood))+geom_point()+xlab("mean sale price in k$")
+
+by_hood_median <-housesData%>%group_by(Neighborhood) %>%summarise(med = median(SalePrice/1000))
+
+ggplot(by_hood_median,aes(x = med,y = Neighborhood))+geom_point()+xlab("median sale price in k$")
 ```
 
 ####Visualize the covariation between SalePrice and OverallQual.
 ```{r}
+by_quality <- housesData%>%group_by(OverallQual) %>%summarise(avg = mean(SalePrice/1000))
 
+ggplot(by_quality)+geom_point(aes(x = avg, y = OverallQual))
 ```
 
+### Exercise 3
+
+#### Our target is called `SalePrice`. First, we can fit a simple regression model consisting of only the intercept (the average of  SalePrice). Fit the model and then use the `broom` package.
+
+I wasn't sure what is meant by fitting with the average. I used `1`. I'll ask you in class.
+
+1. take a look at the coefficient<br/>
+2. compare the coefficient to the average value of SalePrice
+```{r}
+    mean(housesData$SalePrice)
+    (diam_lm <- lm(formula = SalePrice ~ 1, data = housesData))
+
+```
+3. take a look at the R-squared.
+  (in code below)
+```{r}
+  tidy(diam_lm)
+  glance(diam_lm)
+```
+## Exercise 4
+
+#### Fit a linear regression model using `GrLivArea`, `OverallQual`, and `Neighborhood` as the features. 
+```{r}
+(diam_lm <- lm(formula = SalePrice ~ GrLivArea + OverallQual+ Neighborhood, data = housesData))
+```
+
+#### How would you interpret the coefficients on `GrLivArea` and `OverallQual`?
+
+`GrLivArea` is the square fit of living space above ground. So for each square fit the price goes up by 55.56$. `OverallQual` is a scale of 1-10 for the level of finish of the house. Each grade up on this scale is about 20,951\$
+
+#### How would you interpret the coefficient on `NeighborhoodBrkSide`?
+
+In this model House prices in this neighborhood are 13025.45 cheaper the other. 
+
+#### Are the features significant?
+
+Yes, the p-value is low on most of them.
+
+```{r}
+  tidy(diam_lm)
+  glance(diam_lm)
+```
+#### Are the features practically significant?
+
+Yes since it makes sense to say a house will cost more money if it's bigger or has better quality of finish. it also makes sense to say that in a given neighborhood houses are cheaper or more expensive.
+
+#### Is the model a good fit?
+
+I think so.
+
+## Exercise 6
+
+####Fit a linear model to the simulated data below (use y as the target and x as the feature), and look at the resulting coefficients and R-squared. Rerun it about 5-6 times to generate different simulated datasets. What do you notice about the model’s coefficient on x and the R-squared values?
+
+The coefficient and R-squared look like the model is very good, high r squared and low p-value. The estimate change alot and the value of R squared and the p-value .
+
+```{r}
+test_data <- function(){sim1a <- tibble(
+  x = rep(1:10, each = 3),
+  y = x * 1.5 + 6 + rt(length(x), df = 2)
+)
+
+(diam_lm <- lm(formula = y ~ x, data = sim1a))
+  
+  glance(diam_lm)
+  #tidy(diam_lm)
+}
+
+test_data()
+test_data()
+test_data()
+test_data()
+```
