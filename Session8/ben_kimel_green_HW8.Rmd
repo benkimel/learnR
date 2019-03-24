@@ -8,17 +8,28 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(jsonlite)
+library(tidyverse)
+library(leaflet)
 ```
-
+### function
 ```{r}
-getBikeDataForCity <- function(city){
-url <- paste0("https://api.jcdecaux.com/vls/v1/stations?contract=","Dublin","&apiKey=0d1732c81ecef4129e0d8d09c36fbb1acbdbc5aa")
-url
+map_it <- function(city){
+url <- paste0("https://api.jcdecaux.com/vls/v1/stations?contract=",city,"&apiKey=0d1732c81ecef4129e0d8d09c36fbb1acbdbc5aa")
 df_api <- fromJSON(url,flatten = TRUE)
-df_api
+
+mutated <- df_api%>%mutate(lat = position.lat, lng = position.lng)
+
+map <- leaflet(mutated) %>%addTiles()%>%addMarkers(label = ~as.character(available_bikes))
+
+return(map)
 }
-getBikeDataForCity("ggg")
+```
+### testing Code
+```{r}
+cities <- c('Luxembourg', 'Dublin', 'Brisbane', 'Seville', 'Stockholm', 'Ljubljana')
+map_it(cities[2])
 ```
 
 
-## R Markdown
+
+
