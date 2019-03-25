@@ -29,13 +29,17 @@ ggplot(housesData)+geom_histogram(aes(SalePrice/1000),bins = 20)+xlab("Sale Pric
 
 ####Visualize the covariation between SalePrice and Neighborhood.
 ```{r}
-by_hood_mean <- housesData%>%group_by(Neighborhood) %>%summarise(avg = mean(SalePrice/1000))
+#by_hood_mean <- housesData%>%group_by(Neighborhood) %>%summarise(avg = mean(SalePrice/1000))
 
-ggplot(by_hood_mean,aes(x = avg,y = Neighborhood))+geom_point()+xlab("mean sale price in k$")
+#ggplot(by_hood_mean,aes(x = avg,y = Neighborhood))+geom_point()+xlab("mean sale price in k$")
 
-by_hood_median <-housesData%>%group_by(Neighborhood) %>%summarise(med = median(SalePrice/1000))
+#by_hood_median <-housesData%>%group_by(Neighborhood) %>%summarise(med = median(SalePrice/1000))
 
-ggplot(by_hood_median,aes(x = med,y = Neighborhood))+geom_point()+xlab("median sale price in k$")
+#ggplot(by_hood_median,aes(x = med,y = Neighborhood))+geom_point()+xlab("median sale price in k$")
+
+housesData %>% ggplot(aes(x = Neighborhood, y = SalePrice)) + geom_boxplot() +
+theme_bw() +
+theme(axis.text.x = element_text(angle = 90))
 ```
 
 ####Visualize the covariation between SalePrice and OverallQual.
