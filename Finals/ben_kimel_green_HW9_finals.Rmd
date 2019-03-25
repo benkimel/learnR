@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(broom)
 ```
+##Exercise 1
 
 ###STEP 1
 
@@ -58,7 +59,7 @@ for (i in 1:n_loops) {
 error
 ```{r}
 tibble_means <- as.tibble(sample_means)
-ggplot(tibble_means,aes(x = value))+geom_histogram()
+ggplot(tibble_means,aes(x = value))+geom_histogram(bins = 15)
 sd(sample_means)
 10000/sqrt(samp_size)
 ```
@@ -71,9 +72,24 @@ for (i in 1:n_loops) {
   sample_means[[i]]<- resVector$samp_avg
   sample_sds[[i]]<-resVector$samp_std_dev
 }
-tibble_means <- as.tibble(sample_means)
-ggplot(tibble_means,aes(x = value))+geom_histogram()
+tibble_means <- enframe(sample_means)
+ggplot(tibble_means,aes(x = value))+geom_histogram(bins = 15)
 sd(sample_means)
 10000/sqrt(samp_size_big)
 ```
+
+##Exercise 2
+For this exercise we will return to the House Prices prediction dataset that we used for HW 7. You should have already downloaded the train.csv dataset before, but if you didn’t you can download it from Canvas in this week’s module.
+Load the train.csv dataset into R and fit a regression model with:
+* y = SalePrice
+* Features: LotArea, OverallQual, and ExterQual
+```{r}
+
+```
+Answer these questions:
+* Use the broom package to output the coefficients and the R-squared
+* Interpret the coefficient on LotArea
+* Interpret the coefficient on ExterQualGd
+* Compare this model to the model we fit in HW 7 with GrLivArea, OverallQual, Neighborhood. Which
+is the better fitting model?
 
