@@ -11,4 +11,69 @@ library(tidyverse)
 library(broom)
 ```
 
+###STEP 1
+
+Write an R function that does the following:
+
+* Takes a sample of size samp_size from this exponential distribution (samp_size is an input parameter for the function)
+* Calculates the mean of that sample
+* Calculates the standard deviation of that sample
+* Returns the calculated mean and standard deviation as a list
+```{r}
+samp_fun <- function(samp_size, samp_rate) {
+  
+  sample <- rexp(n = samp_size, rate = samp_rate)
+  samp_avg <- mean(sample)
+  samp_std_dev <-sd(sample)
+  stats <- list(samp_avg = samp_avg, samp_std_dev = samp_std_dev)
+  return(stats) 
+  }
+```
+
+###STEP 2
+
+write a loop that does this:
+
+* Runs the above function 1000 times, with samp_size = 50 and samp_rate = 1/10000
+* Saves all of the sample means in a vector called sample_means, and all of the sample standard deviations in a vector called `sample_sds`
+```{r}
+n_loops <-1000
+samp_size <- 50
+samp_rate <- 1/10000
+sample_means <- rep(NA, n_loops)
+sample_sds <- rep(NA, n_loops)
+for (i in 1:n_loops) {
+  resVector <- samp_fun(samp_size,samp_rate)
+  sample_means[[i]]<- resVector$samp_avg
+  sample_sds[[i]]<-resVector$samp_std_dev
+}
+```
+
+### STEP 3
+
+* plot your sample means as a histogram
+* output the standard deviation of your sample means
+* calculate the theoretical standard error (σ = 10000, n = sample size)
+* calculate the mean of the sample standard deviations and use this to calculate the empirical standard
+error
+```{r}
+tibble_means <- as.tibble(sample_means)
+ggplot(tibble_means,aes(x = value))+geom_histogram()
+sd(sample_means)
+10000/sqrt(samp_size)
+```
+### STEP 4
+Repeat STEP 2 and STEP 3 using a sample size of 5000.
+```{r}
+samp_size_big = 5000
+for (i in 1:n_loops) {
+  resVector <- samp_fun(samp_size_big,samp_rate)
+  sample_means[[i]]<- resVector$samp_avg
+  sample_sds[[i]]<-resVector$samp_std_dev
+}
+tibble_means <- as.tibble(sample_means)
+ggplot(tibble_means,aes(x = value))+geom_histogram()
+sd(sample_means)
+10000/sqrt(samp_size_big)
+```
 

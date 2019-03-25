@@ -191,7 +191,40 @@ $(document).ready(function () {
 </div>
 
 
-
+<div id="step-1" class="section level3">
+<h3>STEP 1</h3>
+<p>Write an R function that does the following:</p>
+<ul>
+<li>Takes a sample of size samp_size from this exponential distribution (samp_size is an input parameter for the function)</li>
+<li>Calculates the mean of that sample</li>
+<li>Calculates the standard deviation of that sample</li>
+<li>Returns the calculated mean and standard deviation as a list</li>
+</ul>
+<pre class="r"><code>samp_fun &lt;- function(samp_size, samp_rate) {
+  
+  sample &lt;- rexp(n = samp_size, rate = samp_rate)
+  samp_avg &lt;- mean(sample)
+  samp_std_dev &lt;-sd(sample)
+  stats &lt;- list(samp_avg = samp_avg, samp_std_dev = samp_std_dev)
+  return(stats) 
+  }</code></pre>
+</div>
+<div id="step-2" class="section level3">
+<h3>STEP 2</h3>
+<p>write a loop that does this:</p>
+<ul>
+<li>Runs the above function 1000 times, with samp_size = 50 and samp_rate = 1/10000</li>
+<li>Saves all of the sample means in a vector called sample_means, and all of the sample standard deviations in a vector called <code>sample_sds</code></li>
+</ul>
+<pre class="r"><code>samp_size &lt;- 100
+samp_rate &lt;- 1/10000
+samp_fun(samp_size,samp_rate)</code></pre>
+<pre><code>## $samp_avg
+## [1] 9343.128
+## 
+## $samp_std_dev
+## [1] 9725.775</code></pre>
+</div>
 
 
 
