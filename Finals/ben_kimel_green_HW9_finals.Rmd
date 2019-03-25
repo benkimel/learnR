@@ -1,0 +1,14 @@
+---
+title: "COMPSCIX 415.2 Homework 9/Final"
+author: "ben kimel green"
+date: "3/24/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(broom)
+```
+
+
