@@ -84,10 +84,16 @@ Load the train.csv dataset into R and fit a regression model with:
 * y = SalePrice
 * Features: LotArea, OverallQual, and ExterQual
 ```{r}
-
+housesData <- read_csv("train.csv")
+model <- lm(formula = SalePrice ~ LotArea + OverallQual+ ExterQual, data = housesData)
+tidy(model)
 ```
 Answer these questions:
 * Use the broom package to output the coefficients and the R-squared
+```{r}
+glance(model)
+```
+
 * Interpret the coefficient on LotArea
 * Interpret the coefficient on ExterQualGd
 * Compare this model to the model we fit in HW 7 with GrLivArea, OverallQual, Neighborhood. Which
