@@ -86,7 +86,6 @@ Load the train.csv dataset into R and fit a regression model with:
 ```{r}
 housesData <- read_csv("train.csv")
 model <- lm(formula = SalePrice ~ LotArea + OverallQual+ ExterQual, data = housesData)
-tidy(model)
 ```
 Answer these questions:
 * Use the broom package to output the coefficients and the R-squared
@@ -95,7 +94,19 @@ glance(model)
 ```
 
 * Interpret the coefficient on LotArea
+A:<br/> 
+The coefficient is 1.4552925. thia meeans that for every square fit increase in lot size the house price will cost 1.45$ more. 
+```{r}
+tidy(model)
+```
+
 * Interpret the coefficient on ExterQualGd
+A:<br/> 
+The `ExterQual` data point describes the quality of exterior finish of a house. this model takes `Excellent` Quality and compares it to the  other values avilable for this data point.<br/> `ExterQualGood` (good finish quality) house will cost on avarage 71,529$ less then a house with excellent exterior finish.<br/>
 * Compare this model to the model we fit in HW 7 with GrLivArea, OverallQual, Neighborhood. Which
 is the better fitting model?
+A: The p value on both is 0 so they are statistically segnificant. The r squared is much higher on the HW7 model and so is the adjusted r squared so in that sense it is better. <br/>
+I also think the HW7 model makes more sense. The current one uses 2 quality index at the same time, they are not complitly related but it's a close enough to have second thoughts about the model. <br/>
+HW7 model compared neighborhood to quality of finish to living space- knowing what a house is it seems to make more sense to use these data points over the ones used here.
 
+## Exercise 3
