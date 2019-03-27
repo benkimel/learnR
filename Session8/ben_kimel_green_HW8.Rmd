@@ -28,8 +28,5 @@ return(map)
 ```{r}
 cities <- c('Luxembourg', 'Dublin', 'Brisbane', 'Seville', 'Stockholm', 'Ljubljana')
 map_it(cities[2])
+map_it("Dublin")
 ```
-
-
-
-

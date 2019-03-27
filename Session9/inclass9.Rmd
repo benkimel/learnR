@@ -1,0 +1,36 @@
+---
+title: "InClass9"
+author: "ben kimel green"
+date: "3/26/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+Fake web traffic 
+
+```{r}
+true_a <- 0.5
+true_b <- 0.5
+n_a <- 1000
+n_b <- 1000
+vicor <- rep(NA, n_a)
+vicor_b <- rep(NA, n_b)
+vicor_c <- rep(NA, n_b)
+for (i in 1:1000) {
+samp_a<-rbinom(n= 1,size = n_a,true_a)
+samp_b<-rbinom(n= 1,size = n_b,true_b)
+vicor[[i]] = samp_a
+vicor_b[[i]] = samp_b
+#prop_test <- prop.test(x=samp_a, n=n_a, p = 0.8)
+two_prop_test<-prop.test(c(samp_a,samp_b),c(n_a,n_b))
+vicor_c[[i]]<-two_prop_test$p.value
+}
+#samp_a
+#two_prop_test<-prop.test(c(samp_a,samp_b),c(n_a,n_b))
+#two_prop_test$p.value
+mean(vicor_c)
+```
+
