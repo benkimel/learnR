@@ -108,6 +108,7 @@ is the better fitting model?
 A: The p value on both is 0 so they are statistically segnificant. The r squared is much higher on the HW7 model and so is the adjusted r squared so in that sense it is better. <br/>
 I also think the HW7 model makes more sense. The current one uses 2 quality index at the same time, they are not complitly related but it's a close enough to have second thoughts about the model. <br/>
 HW7 model compared neighborhood to quality of finish to living space- knowing what a house is it seems to make more sense to use these data points over the ones used here.
+Another reason why the current model is problematic is demonstrated in the plot below. Most of the samples are `good` or `typical` this makes this feature weak.
 ```{r}
 ggplot(housesData,aes(x = ExterQual))+geom_bar()
 ```
@@ -115,7 +116,31 @@ ggplot(housesData,aes(x = ExterQual))+geom_bar()
 ## Exercise 3
 
 Download the ab_test_data.csv file from Canvas. This file contains two columns: version and conversion. Each row is a visitor to a webpage. The version column tells us which version of the webpage the visitor saw, and the conversion column is a binary value and equals 1 if the visitor converted (0 otherwise).
+```{r}
+ABData <- read_csv("ab_test_data.csv")
+```
+
 We want to perform an AB test on this data to see if the conversion rates are different for the two versions of the webpage.
 Answer these questions:
 a. What proportion of visitors converted for each version of the webpage?
+
+Answer: the output below shows that sit a had 4.15% conversion and site B has 10% conversion
+
+```{r}
+a_conversions<-filter(ABData,version == "A")
+mean(a_conversions$conversion)
+
+b_conversions<-filter(ABData,version == "B")
+mean(b_conversions$conversion)
+
+```
+
 b. Perform the AB test in R. What is the p-value for the AB test (hypothesis test of proportions)?
+Answer: the output below shows the diffrence in conversion rate to be segnificant. 
+```{r}
+
+two_prop_test <- prop.test(c(sum(a_conversions$conversion), sum(b_conversions$conversion)), c(2000, 2000))
+two_prop_test$p.value
+
+```
+
