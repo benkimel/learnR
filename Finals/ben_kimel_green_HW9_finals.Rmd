@@ -105,8 +105,8 @@ A:<br/>
 The `ExterQual` data point describes the quality of exterior finish of a house. this model takes `Excellent` Quality and compares it to the  other values avilable for this data point.<br/> `ExterQualGood` (good finish quality) house will cost on avarage 71,529$ less then a house with excellent exterior finish.<br/>
 * Compare this model to the model we fit in HW 7 with GrLivArea, OverallQual, Neighborhood. Which
 is the better fitting model?
-A: The p value on both is 0 so they are statistically segnificant. The r squared is much higher on the HW7 model and so is the adjusted r squared so in that sense it is better. <br/>
-I also think the HW7 model makes more sense. The current one uses 2 quality index at the same time, they are not complitly related but it's a close enough to have second thoughts about the model. <br/>
+A: The p value on both is 0 so they are statistically significant. The r squared is much higher on the HW7 model and so is the adjusted r squared so in that sense it is better. <br/>
+I also think the HW7 model makes more sense. The current one uses 2 quality index at the same time, they are not  related but it's a close enough to have second thoughts about the model. <br/>
 HW7 model compared neighborhood to quality of finish to living space- knowing what a house is it seems to make more sense to use these data points over the ones used here.
 Another reason why the current model is problematic is demonstrated in the plot below. Most of the samples are `good` or `typical` this makes this feature weak.
 ```{r}
@@ -136,7 +136,7 @@ mean(b_conversions$conversion)
 ```
 
 b. Perform the AB test in R. What is the p-value for the AB test (hypothesis test of proportions)?
-Answer: the output below shows the diffrence in conversion rate to be segnificant. 
+Answer: the output below shows the difference in conversion rate to be significant. 
 ```{r}
 
 two_prop_test <- prop.test(c(sum(a_conversions$conversion), sum(b_conversions$conversion)), c(2000, 2000))
